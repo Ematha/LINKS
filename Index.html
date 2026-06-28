@@ -296,19 +296,25 @@ function updateProgress() {
 
 async function verify() {
   const f = document.getElementById('img').files[0];
-  if (!f) return;
+  const o = document.getElementById('out');
+  if (!f) { o.textContent = "Pick an image first"; o.style.color = "#ef4444"; return; }
+
+  o.textContent = "AI Thinking..."; o.style.color = "#6b7280";
   const base64 = await f.arrayBuffer().then(b => btoa(String.fromCharCode(...new Uint8Array(b))));
 
   const r = await fetch("/.netlify/functions/verify", {
     method: "POST",
+    headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
       image: {mime_type: f.type, data: base64},
-      prompt: document.getElementById('prompt').textContent + " Answer YES or NO"
+      prompt: "Describe this image in 1 sentence."
     })
   });
   const d = await r.json();
-  // handle YES/NO here
-}
+  const text = d.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
+  o.textContent = text;
+  o.style.color = "#111827";
+  }
 </script>
 </body>
   </html>
