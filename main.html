@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Your Links</title>
+<style>
+body{font-family:Arial,sans-serif;background:#0f172a;color:#e2e8f0;display:flex;flex-direction:column;align-items:center;min-height:100vh;margin:0;padding:40px 20px}
+.box{background:#1e293b;padding:30px;border-radius:16px;max-width:500px;width:100%;text-align:center}
+h1{color:#38bdf8;margin-bottom:30px}
+.link-btn{display:block;background:#38bdf8;color:#0f172a;padding:15px;border-radius:10px;text-decoration:none;font-weight:700;margin:12px 0;font-size:17px;transition:0.2s}
+.link-btn:hover{background:#0ea5e9;transform:translateY(-2px)}
+.admin-btn{position:fixed;top:20px;right:20px;background:#334155;color:#e2e8f0;border:none;padding:10px 15px;border-radius:8px;cursor:pointer;font-size:13px}
+#adminPanel{display:none;background:#0f172a;padding:20px;border-radius:12px;margin-top:20px;text-align:left}
+input{width:100%;padding:12px;margin:8px 0;border-radius:8px;border:1px solid #334155;background:#1e293b;color:#e2e8f0;box-sizing:border-box}
+.btn{background:#38bdf8;color:#0f172a;border:none;padding:12px;border-radius:8px;font-weight:700;cursor:pointer;width:100%;margin-top:10px}
+.btn:hover{background:#0ea5e9}
+.del{background:#ef4444;color:white;padding:5px 10px;border:none;border-radius:5px;cursor:pointer;font-size:12px;margin-left:10px}
+.item{display:flex;justify-content:space-between;align-items:center;background:#1e293b;padding:10px;border-radius:8px;margin:8px 0}
+</style>
+</head>
+<body>
+<button class="admin-btn" onclick="toggleAdmin()">Admin</button>
+<div class="box">
+<h1>Bobbie's Links</h1>
+<div id="links">Loading...</div>
+<div id="adminPanel">
+<h3>Admin Login</h3>
+<input type="password" id="pass" placeholder="Password">
+<button class="btn" onclick="login()">Login</button>
+<div id="editBox" style="display:none">
+<h3>Add Link</h3>
+<input type="text" id="title" placeholder="Link Title">
+<input type="url" id="url" placeholder="https://link.com">
+<button class="btn" onclick="addLink()">Add</button>
+<h3>Your Links</h3>
+<div id="list"></div>
+</div>
+</div>
+</div>
+<script>
+const PASSWORD="DejiBami2009";
+const BIN_ID="6a40cc4fda38895dfe0a7bdb";
+const MASTER_KEY="$2a$10$DisdNd.DB4MoYuneyl7nL.JXrvmp.JXTwGSdiMtXCQxEUwH3FvJh2";
+let links=[];
+
+async function load() {
+  try {
+    const r = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, { headers: { "X-Master-Key": MASTER_KEY } });
+    const data = await r.json();
+    links = data.record || data.record || []; // handles both v3 formats
+    render();
+  } catch (e) {
+    console.log(e);
+    links = []; // fallback to empty if bin is messed up
+    document.getElementById('links').innerHTML = "No links yet. Login as Admin to add.";
+  }
+}
+function render(){document.getElementById('links').innerHTML=links.map(l=>`<a class="link-btn" href="${l.url}" target="_blank">${l.title}</a>`).join("")}
+function toggleAdmin(){const p=document.getElementById('adminPanel');p.style.display=p.style.display==="block"?"none":"block"}
+function login(){if(document.getElementById('pass').value===PASSWORD){document.getElementById('editBox').style.display="block";showList()}else{alert("Wrong password")}}
+async function addLink(){const t=document.getElementById('title').value;const u=document.getElementById('url').value;if(!t||!u)return;links.push({title:t,url:u});await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`,{method:"PUT",headers:{"Content-Type":"application/json","X-Master-Key":MASTER_KEY},body:JSON.stringify(links)});document.getElementById('title').value="";document.getElementById('url').value="";showList()}
+async function delLink(i){links.splice(i,1);await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`,{method:"PUT",headers:{"Content-Type":"application/json","X-Master-Key":MASTER_KEY},body:JSON.stringify(links)});showList()}
+function showList(){document.getElementById('list').innerHTML=links.map((l,i)=>`<div class="item"><span>${l.title}</span><button class="del" onclick="delLink(${i})">Delete</button></div>`).join("")}
+load();
+</script>
+</body>
+</html>
