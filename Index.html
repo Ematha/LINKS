@@ -307,13 +307,17 @@ async function verify() {
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
       image: {mime_type: f.type, data: base64},
-      prompt: "Look at this image. Is this a One Punch Man manga/anime related content? Answer YES or NO, then 1 short reason."
+      prompt: "Is this a One Punch Man manga/anime Facebook page? Answer only YES or NO."
     })
   });
   const d = await r.json();
-  const text = d.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
-  o.textContent = text;
-  o.style.color = "#111827";
+  const text = d.candidates?.[0]?.content?.parts?.[0]?.text || "";
+  o.textContent = text; o.style.color = "#111827";
+
+  if (text.toUpperCase().includes("YES")) {
+    o.textContent = "YES! Redirecting...";
+    setTimeout(() => { window.location.href = "main.html"; }, 1000); // goes to index.html/main.html
+  }
   }
 </script>
 </body>
