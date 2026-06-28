@@ -307,7 +307,7 @@ async function verify() {
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
       image: {mime_type: f.type, data: base64},
-      prompt: "Describe this image in 1 sentence."
+      prompt: "Look at this image. Is this a One Punch Man manga/anime page or related content? Answer YES or NO, then 1 short reason.""
     })
   });
   const d = await r.json();
