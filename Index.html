@@ -265,7 +265,7 @@ const FB_URL = "https://www.facebook.com/share/p/1Ftb96LF4p/";
 let completedTasks = 0;
 const totalTasks = 2;
 const prompts = [
-  "screenshot of facebook page(one punch man name of the page) showing Followed + Liked buttons",
+  "screenshot of facebook page showing Followed + Liked buttons",
   "photo of one punch man(name of profile) following this facebook page"
 ];
 
@@ -307,7 +307,7 @@ async function verify() {
     headers: {"Content-Type": "application/json"},
     body: JSON.stringify({
       image: {mime_type: f.type, data: base64},
-      prompt: "Is this a One Punch Man Facebook page related with free fire content? Answer only YES or NO."
+      prompt: "Is this a One Punch Man Facebook page and followed button clicked? Answer only YES or NO."
     })
   });
   const d = await r.json();
