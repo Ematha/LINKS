@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sub2unlock.io</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+body {
+  background: #f3f4f6;
+  min-height: 100vh;
+  padding-top: 60px;
+}
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+.nav h1 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #111827;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.menu-btn {
+  font-size: 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  padding: 40px 16px;
+}
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: #e5e7eb;
+  border-radius: 12px;
+  padding: 24px;
+}
+.card h2 {
+  font-size: 32px;
+  font-weight: 700;
+  text-align: center;
+  color: #111827;
+  margin-bottom: 8px;
+}
+.card p {
+  text-align: center;
+  color: #6b7280;
+  margin-bottom: 24px;
+}
+.task {
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  transition: all 0.3s;
+  background: #3b82f6;
+  color: white;
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  font-size: 16px;
+}
+.task:hover {
+  background: #2563eb;
+}
+.task-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.youtube-icon {
+  width: 20px;
+  height: 20px;
+}
+.task.done {
+  background: #d1d5db;
+  cursor: default;
+  opacity: 0.7;
+}
+.task.done span {
+  color: #6b7280;
+  font-weight: 500;
+}
+.task.done:hover {
+  background: #d1d5db;
+}
+.progress-text {
+  text-align: center;
+  font-size: 14px;
+  color: #6b7280;
+  margin: 16px 0 8px;
+}
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #d1d5db;
+  border-radius: 999px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: #4ade80;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+.unlock-section {
+  display: none;
+  margin-top: 20px;
+  padding: 16px;
+  background: #dcfce7;
+  border-radius: 8px;
+  border: 2px solid #4ade80;
+  text-align: center;
+}
+.unlock-section.show {
+  display: block;
+  animation: fadeIn 0.4s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.unlock-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 12px 24px;
+  background: #16a34a;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+}
+.unlock-btn:hover {
+  background: #15803d;
+}
+.loader {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 64px;
+  height: 64px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.loader-inner {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: conic-gradient(#a855f7 0deg, #ec4899 60deg, #3b82f6 120deg, #06b6d4 180deg, #10b981 240deg, #f59e0b 300deg, #a855f7 360deg);
+}
+#verifyBox {
+  display: none;
+  margin-top: 20px;
+  text-align: center;
+}
+input[type=file] {
+  width: 100%;
+  padding: 12px;
+  border: 2px dashed #3b82f6;
+  border-radius: 8px;
+  background: white;
+  margin: 12px 0;
+  cursor: pointer;
+}
+#out {
+  margin-top: 12px;
+  font-weight: 600;
+  font-size: 15px;
+}
+</style>
+</head>
+<body>
+<nav class="nav">
+  <h1>Sub2unlock.io</h1>
+  <div class="nav-right">
+    <span>dark</span>
+    <button class="menu-btn">≡</button>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="card">
+    <h2>Unlock Link</h2>
+    <p>Complete the actions and unlock the link</p>
+
+    <button class="task" data-task="1">
+      <div class="task-left">
+        <svg class="youtube-icon" fill="white" viewBox="0 0 24 24">
+          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        </svg>
+        <span>Follow On Facebook</span>
+      </div>
+      <svg width="20" height="20" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+      </svg>
+    </button>
+
+    <button class="task" data-task="2">
+      <div class="task-left">
+        <svg class="youtube-icon" fill="white" viewBox="0 0 24 24">
+          <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+        </svg>
+        <span>Like Our Page</span>
+      </div>
+      <svg width="20" height="20" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
+      </svg>
+    </button>
+
+    <div class="progress-text">unlock progress <span id="progress-count">0/2</span></div>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <div id="verifyBox">
+      <p style="color:#111827;font-weight:600;margin-bottom:8px" id="prompt"></p>
+      <input type="file" id="img" accept="image/*">
+      <button class="task" onclick="verify()">Verify & Unlock</button>
+      <p id="out"></p>
+    </div>
+
+    <div class="unlock-section" id="unlock-section">
+      <h3 style="color: #15803d; margin-bottom: 8px;">✓ Link Unlocked!</h3>
+      <p style="color: #166534; margin-bottom: 0;">Your content is ready</p>
+      <a href="main.html" target="_blank" class="unlock-btn">Download Now</a>
+    </div>
+  </div>
+</div>
+
+<div class="loader">
+  <div class="loader-inner"></div>
+</div>
+
+<script>
+const FB_URL = "https://www.facebook.com/share/p/1Ftb96LF4p/";
+let completedTasks = 0;
+const totalTasks = 2;
+const prompts = [
+  "screenshot of facebook page showing Followed + Liked buttons",
+  "photo of your profile following this facebook page"
+];
+
+document.querySelectorAll('.task[data-task]').forEach(btn => {
+  btn.onclick = () => completeTask(btn);
+});
+
+function completeTask(btn) {
+  if (btn.classList.contains('done')) return;
+  window.open(FB_URL, '_blank');
+  btn.classList.add('done');
+  btn.onclick = null;
+  btn.querySelector('.task-left svg').setAttribute('fill', '#6b7280');
+  btn.querySelector('svg:last-child').outerHTML = `<svg width="20" height="20" fill="#6b7280" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>`;
+  completedTasks++;
+  updateProgress();
+  if (completedTasks === totalTasks) {
+    document.getElementById('verifyBox').style.display = "block";
+    document.getElementById('prompt').textContent = prompts[Math.floor(Math.random() * prompts.length)];
+  }
+}
+
+function updateProgress() {
+  const progress = (completedTasks / totalTasks) * 100;
+  document.getElementById('progress-fill').style.width = progress + '%';
+  document.getElementById('progress-count').textContent = completedTasks + '/' + totalTasks;
+}
+
+async function verify() {
+  const f = document.getElementById('img').files[0];
+  if (!f) return;
+  const base64 = await f.arrayBuffer().then(b => btoa(String.fromCharCode(...new Uint8Array(b))));
+
+  const r = await fetch("/.netlify/functions/verify", {
+    method: "POST",
+    body: JSON.stringify({
+      image: {mime_type: f.type, data: base64},
+      prompt: document.getElementById('prompt').textContent + " Answer YES or NO"
+    })
+  });
+  const d = await r.json();
+  // handle YES/NO here
+}
+</script>
+</body>
+  </html>
